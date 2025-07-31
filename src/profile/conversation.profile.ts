@@ -18,11 +18,11 @@ export class CovnersationProfile extends AutomapperProfile {
         TakeConversationDto,
         forMember(
           (dest) => dest.roomId,
-          mapFrom((src) => src.room)
+          mapFrom((src) => src.room.id)
         ),
         forMember(
           (dest) => dest.senderId,
-          mapFrom((src) => src.userId)
+          mapFrom((src) => src.user.id)
         ),
         forMember(
           (dest) => dest.senderName,

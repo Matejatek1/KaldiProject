@@ -7,11 +7,13 @@ import { RoomsModule } from 'src/rooms/rooms.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { CovnersationProfile } from 'src/profile/conversation.profile';
+import { UsersModule } from 'src/users/users.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Conversation]),
     forwardRef(() => MessagesModule),
     RoomsModule,
+    UsersModule,
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),

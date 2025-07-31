@@ -34,14 +34,14 @@ export class MessagesService {
         `Conversation with ID ${conversationId} not found`
       );
     }
-    if (conversation.userId != userId && conversation.workerId != userId) {
+    if (conversation.user.id != userId && conversation.worker.id != userId) {
       throw new NotFoundException(
         `You do not have acess to this conversation.`
       );
     }
     const messageEntity: Message = this.messageRepository.create({
       message: message,
-      conversationId: conversationId,
+      conversation: conversation,
       senderId: userId,
     });
     return this.classMapper.map(
@@ -61,15 +61,11 @@ export class MessagesService {
         `Conversation with ID ${conversationId} not found`
       );
     }
-    if (conversation.userId != userId && conversation.workerId != userId) {
+    if (conversation.user.id != userId && conversation.worker.id != userId) {
       throw new NotFoundException(
         `You are not allowed to view conversation with ID ${conversationId}`
       );
     }
-    return this.classMapper.mapArray(
-      await this.messageRepository.findBy({ conversationId: conversation.id }),
-      Message,
-      MessageDto
-    );
+    return await conversation.messages;
   }
 }

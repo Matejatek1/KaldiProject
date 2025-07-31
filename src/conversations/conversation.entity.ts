@@ -1,23 +1,28 @@
 import { AutoMap } from '@automapper/classes';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Message } from 'src/messages/message.entity';
+import { Room } from 'src/rooms/room.entity';
+import { User } from 'src/users/users.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class Conversation {
   @PrimaryGeneratedColumn()
   id: number;
-  @AutoMap()
-  @Column()
-  userId: number;
+  @ManyToOne(() => User, user => user.conversations)
+  user: User;
   @AutoMap()
   @Column()
   userName: string;
-  @AutoMap()
-  @Column()
-  room: number;
+  
+  @ManyToOne(() => Room, room => room.conversations)
+  room: Room;
 
-  @Column({ nullable: true })
-  workerId: number | null;
+  @ManyToOne(() => User, user => user.conversations)
+  worker: User;
+
+  @OneToMany(() => Message, message => message.conversation)
+  messages: Message[];
 
   @Column({ default: 0 })
-  status: number; // 0: 'waiting' or 1: 'taken'
+  status: number; 
 }

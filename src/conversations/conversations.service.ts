@@ -15,6 +15,8 @@ import { MessageDto } from 'src/dtos/message.dto';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { TakeConversationDto } from 'src/dtos/take-conversation.dto';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/users.entity';
 
 @Injectable()
 export class ConversationsService {
@@ -24,6 +26,7 @@ export class ConversationsService {
     @Inject(forwardRef(() => MessagesService))
     private readonly messagesService: MessagesService,
     private readonly roomRepository: RoomsService,
+    private readonly usersService: UsersService,
     @InjectMapper() private readonly classMapper: Mapper
   ) {}
 
@@ -50,12 +53,14 @@ export class ConversationsService {
         `Conversation with ID ${conversationId} not found`
       );
     }
-    if (conversation.workerId != null) {
+    if (conversation.worker != null) {
       throw new BadRequestException(
         `The conversation already has an assigned worker.`
       );
     }
-    conversation.workerId = userId;
+    const worker: User
+     = await this.usersService.getUserFromId(userId);
+    conversation.worker = worker;
     conversation.status = 1;
     const savedConversation: Conversation =
       await this.conversationsRepository.save(conversation);
@@ -87,12 +92,14 @@ export class ConversationsService {
     if (isOperator) {
       throw new UnauthorizedException(
         `You are an operator and can not start new conversations.`
-      );
-    }
+    );
+  }
+    const user = await this.usersService.getUserFromId(userId);
+
     const newConversation = await this.conversationsRepository.create({
-      userId: userId,
+      user: user,
       userName: userName,
-      room: roomId,
+      room: await this.roomRepository.getRoomById(roomId),
       status: 0,
     });
     return await this.conversationsRepository.save(newConversation);
@@ -102,20 +109,8 @@ export class ConversationsService {
     userId: number,
     isOperator: boolean
   ): Promise<Array<Conversation>> {
-    if (isOperator) {
-      const conversation: Array<Conversation> =
-        await this.conversationsRepository.find({
-          where: { workerId: userId },
-        });
-      if (conversation == null) {
-        throw new NotFoundException(`Conversations were not found.`);
-      }
-      return conversation;
-    }
     const conversation: Array<Conversation> =
-      await this.conversationsRepository.find({
-        where: { userId: userId },
-      });
+      await this.usersService.getConversations(userId);
     if (conversation == null) {
       throw new NotFoundException(`Conversations were not found.`);
     }

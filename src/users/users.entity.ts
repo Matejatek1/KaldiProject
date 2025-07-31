@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Conversation } from 'src/conversations/conversation.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,6 +12,9 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  operator: boolean; // 'user' or 'operator'
+  @Column({ default: false })
+  isOperator: boolean; // 'user' or 'operator'
+
+  @OneToMany(() => Conversation, conversation => conversation.user)
+  conversations: Conversation[];
 }

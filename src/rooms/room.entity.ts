@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Conversation } from 'src/conversations/conversation.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Room {
@@ -7,4 +8,7 @@ export class Room {
 
   @Column({ unique: true })
   name: string; // 'tech', 'services', 'chat'
+
+  @OneToMany(() => Conversation, conversation => conversation.room)
+  conversations: Conversation[];
 }
