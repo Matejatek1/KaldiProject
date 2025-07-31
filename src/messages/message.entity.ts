@@ -6,7 +6,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 export class Message {
   @PrimaryGeneratedColumn()
   id: number;
-  @ManyToOne(() => Conversation, conversation => conversation.messages)
+  @ManyToOne(() => Conversation, (conversation) => conversation.messages)
   conversation: Conversation;
 
   @AutoMap()

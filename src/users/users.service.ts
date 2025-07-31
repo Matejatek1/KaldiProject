@@ -20,6 +20,9 @@ export class UsersService {
   }
 
   async getUserFromId(id: number): Promise<User> {
-    return this.userRepository.findOne({ where: { id } });
+    return this.userRepository.findOne({
+      where: { id: id },
+      relations: ['conversations'],
+    });
   }
 }

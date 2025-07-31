@@ -9,6 +9,6 @@ export class Room {
   @Column({ unique: true })
   name: string; // 'tech', 'services', 'chat'
 
-  @OneToMany(() => Conversation, conversation => conversation.room)
+  @OneToMany(() => Conversation, (conversation) => conversation.room)
   conversations: Conversation[];
 }

@@ -5,10 +5,10 @@ import {
   UseGuards,
   Request,
   Body,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
-import { LocalAuthGuard } from './auth/local-auth.guard';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { BasicAuthGuard } from './auth/basic-auth.guard';
 import { MessagesService } from './messages/messages.service';
 import { Conversation } from './conversations/conversation.entity';
 import { ConversationsService } from './conversations/conversations.service';
@@ -26,80 +26,68 @@ export class AppController {
     private readonly roomsService: RoomsService
   ) {}
 
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('getAllMessagesFromConversation')
-  getAllMessagesFromConversation(
-    @Body('conversationId') conversationId: number,
+  @UseGuards(BasicAuthGuard)
+  @Get('conversations/:id/messages')
+  getMessages(
+    @Param('id') id: number,
     @Request() req
   ): Promise<Array<MessageDto>> {
-    return this.messageService.getAllMessagesFromConversation(
-      conversationId,
+    return this.conversationService.getAllMessagesFromConversation(
+      id,
       req.user.id
     );
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('addMessage')
+  @UseGuards(BasicAuthGuard)
+  @Post('conversations/:id/messages')
   addMessage(
+    @Param('id') id: number,
     @Body('message') message: string,
-    @Body('conversationId') conversationId: number,
     @Request() req
   ): Promise<MessageDto> {
-    return this.messageService.addMessage(message, conversationId, req.user.id);
+    return this.messageService.addMessage(message, id, req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(BasicAuthGuard)
   @Get('getAllConversations')
   getAllConversations(@Request() req): Promise<Array<Conversation>> {
-    return this.conversationService.getAllConversations(req.user.operator);
+    return this.conversationService.getAllConversations(req.user.isOperator);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('takeConversation')
+  @UseGuards(BasicAuthGuard)
+  @Get('conversations/:id/take')
   takeConversation(
-    @Body('conversationId') conversationId: number,
+    @Param('id') id: number,
     @Request() req
   ): Promise<[TakeConversationDto, MessageDto[]]> {
-    return this.conversationService.takeConversation(
-      conversationId,
-      req.user.id
-    );
+    return this.conversationService.takeConversation(id, req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('createNewConversation')
-  createNewConversation(
+  @UseGuards(BasicAuthGuard)
+  @Post('conversations')
+  createConversation(
     @Body('roomId') roomId: number,
     @Request() req
   ): Promise<Conversation> {
     try {
       return this.conversationService.createNewConversation(
         roomId,
-        req.user.id,
-        req.user.name,
-        req.user.operator
+        req.user.id
       );
     } catch (e) {
       return e;
     }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('continueConversation')
+  @UseGuards(BasicAuthGuard)
+  @Get('/conversations/continue')
   continueConversation(@Request() req): Promise<Array<Conversation>> {
     return this.conversationService.continueConversation(
-      req.user.id,
-      req.user.operator
+      req.user
     );
   }
 
-  @Get('getRooms')
+  @Get('rooms')
   getRooms(): Promise<Array<Room>> {
     return this.roomsService.getRooms();
   }

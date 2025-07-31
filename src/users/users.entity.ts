@@ -9,12 +9,12 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({ default: false })
   isOperator: boolean; // 'user' or 'operator'
 
-  @OneToMany(() => Conversation, conversation => conversation.user)
+  @OneToMany(() => Conversation, (conversation) => conversation.user)
   conversations: Conversation[];
 }

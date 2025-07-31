@@ -34,9 +34,12 @@ export class MessagesService {
         `Conversation with ID ${conversationId} not found`
       );
     }
-    if (conversation.user.id != userId && conversation.worker.id != userId) {
+    if (
+      !(conversation.user?.id == userId) &&
+      !(conversation.worker?.id == userId)
+    ) {
       throw new NotFoundException(
-        `You do not have acess to this conversation.`
+        `You do not have access to this conversation.`
       );
     }
     const messageEntity: Message = this.messageRepository.create({
@@ -49,23 +52,5 @@ export class MessagesService {
       Message,
       MessageDto
     );
-  }
-  async getAllMessagesFromConversation(
-    conversationId: number,
-    userId: number
-  ): Promise<MessageDto[]> {
-    const conversation: Conversation =
-      await this.conversationService.getConversationById(conversationId);
-    if (!conversation) {
-      throw new NotFoundException(
-        `Conversation with ID ${conversationId} not found`
-      );
-    }
-    if (conversation.user.id != userId && conversation.worker.id != userId) {
-      throw new NotFoundException(
-        `You are not allowed to view conversation with ID ${conversationId}`
-      );
-    }
-    return await conversation.messages;
   }
 }

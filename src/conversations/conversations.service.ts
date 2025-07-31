@@ -31,7 +31,10 @@ export class ConversationsService {
   ) {}
 
   async getConversationById(conversationId: number): Promise<Conversation> {
-    return this.conversationsRepository.findOneBy({ id: conversationId });
+    return this.conversationsRepository.findOne({
+      where: { id: conversationId },
+      relations: ['messages', 'user', 'worker', 'room'],
+    });
   }
 
   // For worker
@@ -47,24 +50,23 @@ export class ConversationsService {
     userId: number
   ): Promise<[TakeConversationDto, MessageDto[]]> {
     const conversation: Conversation =
-      await this.conversationsRepository.findOneBy({ id: conversationId });
+      await this.getConversationById(conversationId);
     if (!conversation) {
       throw new NotFoundException(
         `Conversation with ID ${conversationId} not found`
       );
     }
-    if (conversation.worker != null) {
+    if (conversation.worker) {
       throw new BadRequestException(
         `The conversation already has an assigned worker.`
       );
     }
-    const worker: User
-     = await this.usersService.getUserFromId(userId);
+    const worker: User = await this.usersService.getUserFromId(userId);
     conversation.worker = worker;
     conversation.status = 1;
     const savedConversation: Conversation =
       await this.conversationsRepository.save(conversation);
-    const messages = await this.messagesService.getAllMessagesFromConversation(
+    const messages = await this.getAllMessagesFromConversation(
       savedConversation.id,
       userId
     );
@@ -81,36 +83,56 @@ export class ConversationsService {
   // For user
   async createNewConversation(
     roomId: number,
-    userId: number,
-    userName: string,
-    isOperator: boolean
+    userId: number
   ): Promise<Conversation> {
     const room = await this.roomRepository.getRoomById(roomId);
     if (room == null) {
       throw new NotFoundException(`Room was not found.`);
     }
-    if (isOperator) {
+    const user = await this.usersService.getUserFromId(userId);
+    if (user.isOperator) {
       throw new UnauthorizedException(
         `You are an operator and can not start new conversations.`
-    );
-  }
-    const user = await this.usersService.getUserFromId(userId);
+      );
+    }
 
     const newConversation = await this.conversationsRepository.create({
       user: user,
-      userName: userName,
+      userName: user.username,
       room: await this.roomRepository.getRoomById(roomId),
       status: 0,
     });
     return await this.conversationsRepository.save(newConversation);
   }
 
+  async getAllMessagesFromConversation(
+    conversationId: number,
+    userId: number
+  ): Promise<MessageDto[]> {
+    const conversation: Conversation =
+      await this.getConversationById(conversationId);
+    if (!conversation) {
+      throw new NotFoundException(
+        `Conversation with ID ${conversationId} not found`
+      );
+    }
+    if (
+      !(conversation.user?.id == userId) &&
+      !(conversation.worker?.id == userId)
+    ) {
+      throw new UnauthorizedException(
+        `You are not allowed to view conversation with ID ${conversationId}`
+      );
+    }
+    const messages = await conversation.messages;
+    return messages;
+  }
+
   async continueConversation(
-    userId: number,
-    isOperator: boolean
+    user: User
   ): Promise<Array<Conversation>> {
     const conversation: Array<Conversation> =
-      await this.usersService.getConversations(userId);
+      await this.usersService.getConversations(user.id);
     if (conversation == null) {
       throw new NotFoundException(`Conversations were not found.`);
     }

@@ -29,6 +29,7 @@ This API project enables two-way conversations with private rooms where clients 
    ```bash
     docker-compose up
    ```
+
    This will:
 
 - Spin up a Docker container for Postgres.
@@ -76,8 +77,8 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   The request requires a username and password.
   ```json
   {
-      "username":"TestAdmin1",
-      "password":"passw6"
+    "username": "TestAdmin1",
+    "password": "passw6"
   }
   ```
 - **Response Example**:
@@ -96,16 +97,16 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ```json
   [
     {
-        "id": 1,
-        "name": "tehnika"
+      "id": 1,
+      "name": "tehnika"
     },
     {
-        "id": 3,
-        "name": "pogovor"
+      "id": 3,
+      "name": "pogovor"
     },
     {
-        "id": 2,
-        "name": "storitve"
+      "id": 2,
+      "name": "storitve"
     }
   ]
   ```
@@ -142,12 +143,12 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ```json
   [
     {
-        "id": 6,
-        "userId": 4,
-        "userName": "TestUser2",
-        "room": 1,
-        "workerId": 3,
-        "status": 1
+      "id": 6,
+      "userId": 4,
+      "userName": "TestUser2",
+      "room": 1,
+      "workerId": 3,
+      "status": 1
     }
   ]
   ```
@@ -187,12 +188,12 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ```json
   [
     {
-        "message": "Test Message number 1.",
-        "senderId": 4
+      "message": "Test Message number 1.",
+      "senderId": 4
     },
     {
-        "message": "Test Message number 2.",
-        "senderId": 2
+      "message": "Test Message number 2.",
+      "senderId": 2
     }
   ]
   ```
@@ -212,15 +213,15 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ```json
   [
     {
-        "roomId": 1,
-        "senderId": 1,
-        "senderName": "TestAdmin1"
+      "roomId": 1,
+      "senderId": 1,
+      "senderName": "TestAdmin1"
     },
     [
-        {
-            "message": "Test response from administrator.",
-            "senderId": 1
-        }
+      {
+        "message": "Test response from administrator.",
+        "senderId": 1
+      }
     ]
   ]
   ```
@@ -234,20 +235,20 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ```json
   [
     {
-        "id": 6,
-        "userId": 4,
-        "userName": "TestUser2",
-        "room": 1,
-        "workerId": 3,
-        "status": 1
+      "id": 6,
+      "userId": 4,
+      "userName": "TestUser2",
+      "room": 1,
+      "workerId": 3,
+      "status": 1
     },
     {
-        "id": 7,
-        "userId": 4,
-        "userName": "TestUser3",
-        "room": 1,
-        "workerId": null,
-        "status": 0
+      "id": 7,
+      "userId": 4,
+      "userName": "TestUser3",
+      "room": 1,
+      "workerId": null,
+      "status": 0
     }
   ]
   ```
