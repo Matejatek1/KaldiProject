@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   async validate(payload: any) {
-    if (payload.exp > Date.now()) {
+    if (payload.exp < Date.now() / 1000) {
       throw new TokenExpiredError(
         'The token provided has expired.',
         payload.exp
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.getUserFromId(payload.sub);
     return {
       id: payload.sub,
-      operator: user.operator,
+      operator: user.isOperator,
       name: payload.name,
     };
   }
