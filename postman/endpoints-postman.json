@@ -1,264 +1,291 @@
 {
-  "info": {
-    "_postman_id": "4aa9a61d-0289-4286-ba30-c16461ec0f44",
-    "name": "NestJs Service",
-    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-    "_exporter_id": "19036046"
-  },
-  "item": [
-    {
-      "name": "Login Admin 1",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"TestAdmin1\",\r\n    \"password\":\"passw6\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/login"
-      },
-      "response": []
-    },
-    {
-      "name": "Login Admin 2",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"TestAdmin2\",\r\n    \"password\":\"passw7\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/login"
-      },
-      "response": []
-    },
-    {
-      "name": "Login User 1",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"TestUser1\",\r\n    \"password\":\"passw3\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/login"
-      },
-      "response": []
-    },
-    {
-      "name": "Login User 2",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"TestUser2\",\r\n    \"password\":\"passw4\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/login"
-      },
-      "response": []
-    },
-    {
-      "name": "Login User 3",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"username\":\"TestUser3\",\r\n    \"password\":\"passw5\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/login"
-      },
-      "response": []
-    },
-    {
-      "name": "Get All Rooms",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "{{serviceUrl}}/getRooms"
-      },
-      "response": []
-    },
-    {
-      "name": "Get new Conversation",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdEFkbWluMSIsInN1YiI6MSwiaWF0IjoxNzI0NTE0NTMxLCJleHAiOjE3MjQ1MTU3MzF9.EcT3pd5T7UoDGYQR1-cKS5NFNh8ZgXzsQcHrvlVgkwE"
-          }
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"roomId\": 1\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/createNewConversation"
-      },
-      "response": []
-    },
-    {
-      "name": "Get existing Covnersation",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdFVzZXIyIiwic3ViIjo0LCJpYXQiOjE3MjQzNjE2MDEsImV4cCI6MTcyNDM2MjgwMX0.fcfk_Zv53PCVYjYl1rN20jn0LGQhlIKXY4MV1HsRack"
-          }
-        },
-        "method": "GET",
-        "header": [],
-        "url": "{{serviceUrl}}/continueConversation"
-      },
-      "response": []
-    },
-    {
-      "name": "Post add Message",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdEFkbWluMSIsInN1YiI6MSwiaWF0IjoxNzI0NDk4NTY2LCJleHAiOjE3MjQ0OTk3NjZ9.dD3ZU69wYrj2lqhn4szZpmliVWGiw-mlqlsdFtj2efs"
-          }
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"message\": \"Test response from administrator.\",\r\n    \"conversationId\": 6\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/addMessage"
-      },
-      "response": []
-    },
-    {
-      "name": "Post get all Messages from Conversation",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdEFkbWluMSIsInN1YiI6MSwiaWF0IjoxNzI0NDk4NjYwLCJleHAiOjE3MjQ0OTk4NjB9.gI3wnRAVED09vbkwWr2C322xBRFkMpxXt39PjgvyrVk"
-          }
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"conversationId\": 6\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/getAllMessagesFromConversation"
-      },
-      "response": []
-    },
-    {
-      "name": "Post take conversation",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdEFkbWluMiIsInN1YiI6MywiaWF0IjoxNzI0NDk4MDk2LCJleHAiOjE3MjQ0OTkyOTZ9.TChKpsK3_c1HPJRsWxfcs-2Foc5ol74kaiEmLJjpu3E"
-          }
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"conversationId\": 6\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "{{serviceUrl}}/takeConversation"
-      },
-      "response": []
-    },
-    {
-      "name": "Post get all Conversations",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdEFkbWluMiIsInN1YiI6MywiaWF0IjoxNzI0MzYxNzA5LCJleHAiOjE3MjQzNjI5MDl9.wXWcVBSUGxh4zEsY4_vlQyGDT2cnPChm9I3qacj82x8"
-          }
-        },
-        "method": "GET",
-        "header": [],
-        "url": "{{serviceUrl}}/getAllConversations"
-      },
-      "response": []
-    }
-  ],
-  "auth": {
-    "type": "inherit",
-    "inherit": {}
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "serviceUrl",
-      "value": "localhost:3005",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "10f977ef-c63e-4a28-8189-8e9e6d78986d",
+		"name": "NestJs Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19036046"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "All Conversations",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serviceUrl}}/getAllConversations",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"getAllConversations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Take conversation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serviceUrl}}/conversations/12/take",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"conversations",
+								"12",
+								"take"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Calls",
+			"item": [
+				{
+					"name": "New Conversation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roomId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serviceUrl}}/conversations",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"conversations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Existing Covnersation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serviceUrl}}/conversations/continue",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"conversations",
+								"continue"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shared Calls",
+			"item": [
+				{
+					"name": "All Rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serviceUrl}}/rooms",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Message",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Second test message from worker\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serviceUrl}}/conversations/8/messages",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"conversations",
+								"8",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Messages from Conversation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serviceUrl}}/conversations/8/messages",
+							"host": [
+								"{{serviceUrl}}"
+							],
+							"path": [
+								"conversations",
+								"8",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "serviceUrl",
+			"value": "localhost:3005",
+			"type": "string"
+		}
+	]
 }

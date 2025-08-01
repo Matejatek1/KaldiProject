@@ -66,61 +66,41 @@ To make it easier to explore the API, you can import the Postman collection for 
 
 The postman is located inside the project for convenience: [Get Postman Collection](./postman/endpoints-postman.json).
 
+For user selection in Postman, separate environments are provided for each user, which you can import as needed.
+
 ### The endpoints
 
-#### Login
 
-- **Endpoint**: `POST /login`
-- **Description**: The endpoint authenticates the user and returns a Bearer token, that is to be used in all other calls.
-- **Bearer**: Not required.
-- **Request Body Example**:
-  The request requires a username and password.
-  ```json
-  {
-    "username": "TestAdmin1",
-    "password": "passw6"
-  }
-  ```
-- **Response Example**:
-  ```json
-  {
-    "access_token": "eyJhbGciOiJI..."
-  }
-  ```
+#### Authentication
+
+All protected endpoints require HTTP Basic Authentication. Provide your username and password in the Authorization header:
+
+```
+Authorization: Basic base64(username:password)
+```
 
 #### Get all rooms
 
-- **Endpoint**: `GET /getRooms`
-- **Description**: The endpoint returnes all the rooms in an array.
-- **Bearer**: Not required.
+- **Endpoint**: `GET /rooms`
+- **Description**: Returns all rooms.
+- **Auth**: Not required.
 - **Response Example**:
   ```json
   [
-    {
-      "id": 1,
-      "name": "tehnika"
-    },
-    {
-      "id": 3,
-      "name": "pogovor"
-    },
-    {
-      "id": 2,
-      "name": "storitve"
-    }
+    { "id": 1, "name": "tehnika" },
+    { "id": 3, "name": "pogovor" },
+    { "id": 2, "name": "storitve" }
   ]
   ```
 
-#### New conversation
+#### Create new conversation
 
-- **Endpoint**: `POST /createNewConversation`
-- **Description**: The endpoint creats a new conversation thread and returnes the conversation entity.
-- **Bearer**: Required.
+- **Endpoint**: `POST /conversations`
+- **Description**: Creates a new conversation thread and returns the conversation entity.
+- **Auth**: Required.
 - **Request Body Example**:
   ```json
-  {
-    "roomId": 1
-  }
+  { "roomId": 1 }
   ```
 - **Response Example**:
   ```json
@@ -134,11 +114,11 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   }
   ```
 
-#### Get existing conversation
+#### Get assigned conversations
 
-- **Endpoint**: `GET /continueConversation`
-- **Description**: The endpoint returns all the assigned conversations to the user/operator.
-- **Bearer**: Required.
+- **Endpoint**: `GET /conversations/continue`
+- **Description**: Returns all conversations assigned to the user/operator.
+- **Auth**: Required.
 - **Response Example**:
   ```json
   [
@@ -153,103 +133,56 @@ The postman is located inside the project for convenience: [Get Postman Collecti
   ]
   ```
 
-#### Add message
+#### Add message to conversation
 
-- **Endpoint**: `POST /addMessage`
-- **Description**: The endpoint adds a message to the conversation.
-- **Bearer**: Required.
+- **Endpoint**: `POST /conversations/:id/messages`
+- **Description**: Adds a message to the conversation.
+- **Auth**: Required.
 - **Request Body Example**:
   ```json
-  {
-    "message": "Test message.",
-    "conversationId": 6
-  }
+  { "message": "Test message." }
   ```
 - **Response Example**:
   ```json
-  {
-    "message": "est message.",
-    "senderId": 3
-  }
+  { "message": "Test message.", "senderId": 3 }
   ```
 
 #### Get all messages for conversation
 
-- **Endpoint**: `POST /getAllMessagesFromConversation`
-- **Description**: The endpoint returns all messages from the conversation. The only people able to see the conversation is the assigned operator and the user sending the messages.
-- **Bearer**: Required.
-- **Request Body Example**:
-  ```json
-  {
-    "conversationId": 6
-  }
-  ```
+- **Endpoint**: `GET /conversations/:id/messages`
+- **Description**: Returns all messages from the conversation. Only the assigned operator and the user can see the conversation.
+- **Auth**: Required.
 - **Response Example**:
   ```json
   [
-    {
-      "message": "Test Message number 1.",
-      "senderId": 4
-    },
-    {
-      "message": "Test Message number 2.",
-      "senderId": 2
-    }
+    { "message": "Test Message number 1.", "senderId": 4 },
+    { "message": "Test Message number 2.", "senderId": 2 }
   ]
   ```
 
 #### Take conversation
 
-- **Endpoint**: `POST /takeConversation`
-- **Description**: This endpoint is only for the operators and assignes an operator a conversation. After calling it returns the array of conversation data and messages that were written to the conversation.
-- **Bearer**: Required.
-- **Request Body Example**:
-  ```json
-  {
-    "conversationId": 8
-  }
-  ```
+- **Endpoint**: `GET /conversations/:id/take`
+- **Description**: For operators only. Assigns an operator to a conversation and returns the conversation data and messages.
+- **Auth**: Required.
 - **Response Example**:
   ```json
   [
-    {
-      "roomId": 1,
-      "senderId": 1,
-      "senderName": "TestAdmin1"
-    },
-    [
-      {
-        "message": "Test response from administrator.",
-        "senderId": 1
-      }
-    ]
+    { "roomId": 1, "senderId": 1, "senderName": "TestAdmin1" },
+    [ { "message": "Test response from administrator.", "senderId": 1 } ]
   ]
   ```
 
-#### Get all messages for conversation
+#### Get all conversations
 
-- **Endpoint**: `GET /getAllConversations`
-- **Description**: This is a endpoint for the operators, to see all the conversations in the system. The assigned ones have a workerId set and the status set to 1.
-- **Bearer**: Required.
+- **Endpoint**: `GET /conversations`
+- **Description**: For operators. Returns all conversations in the system. Assigned ones have a workerId and status set to 1.
+- **Auth**: Required.
 - **Response Example**:
   ```json
   [
-    {
-      "id": 6,
-      "userId": 4,
-      "userName": "TestUser2",
-      "room": 1,
-      "workerId": 3,
-      "status": 1
-    },
-    {
-      "id": 7,
-      "userId": 4,
-      "userName": "TestUser3",
-      "room": 1,
-      "workerId": null,
-      "status": 0
-    }
+    { "id": 6, "userId": 4, "userName": "TestUser2", "room": 1, "workerId": 3, "status": 1 },
+    { "id": 7, "userId": 4, "userName": "TestUser3", "room": 1, "workerId": null, "status": 0 }
   ]
   ```
 
